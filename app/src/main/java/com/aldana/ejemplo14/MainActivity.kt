@@ -1,37 +1,37 @@
 package com.aldana.ejemplo14
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.aldana.ejemplo14.databinding.ActivityMainBinding
-import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
     lateinit var scoreViewModel: ScoreViewModel
+    lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //setContentView(R.layout.activity_main)
+        var binding: ActivityMainBinding = DataBindingUtil.setContentView(
+            this, R.layout.activity_main)
 
         scoreViewModel = ViewModelProviders.of(this).get(ScoreViewModel::class.java)
+        binding.tvScoreTeamA.text = scoreViewModel.scoreTeamA.toString()
+        binding.tvScoreTeamB.text = scoreViewModel.scoreTeamB.toString()
+        binding.score = scoreViewModel
 
-        DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main
-        ).apply {
-            this.lifecycleOwner = this@MainActivity
-            this.points = scoreViewModel
-        }
-
-        scoreViewModel.pointA.observe(this, Observer {
-            tv_score_team_a.text = it.toString()
-        })
-
-        scoreViewModel.pointB.observe(this, Observer {
-            tv_score_team_b.text = it.toString()
-        })
+        /*displayScore(
+            tv_score_team_a,
+            scoreViewModel.scoreTeamA
+        )
+        displayScore(
+            tv_score_team_b,
+            scoreViewModel.scoreTeamB
+        )*/
 
         // TODO: El ViewModel es restaurado si ya existía, si no, se crea uno nuevo.
         // TODO: Recuerde que el ViewModel solo sobrevive a cambios de configuración y no a la destrucción de la aplicación
@@ -43,40 +43,76 @@ class MainActivity : AppCompatActivity() {
 
     fun addOneTeamA(v: View) {
         scoreViewModel.scoreTeamA += 1
-        scoreViewModel.saveScore()
+        /*displayScore(
+            tv_score_team_a,
+            ++scoreViewModel.scoreTeamA
+        )*/
     }
 
     fun addOneTeamB(v: View) {
         scoreViewModel.scoreTeamB += 1
-        scoreViewModel.saveScore()
+
+        /*displayScore(
+            tv_score_team_b,
+            ++scoreViewModel.scoreTeamB
+        )*/
     }
 
     fun addTwoTeamA(v: View) {
         scoreViewModel.scoreTeamA += 2
-        scoreViewModel.saveScore()
+
+        /*displayScore(
+            tv_score_team_a,
+            scoreViewModel.scoreTeamA
+        )*/
     }
 
     fun addTwoTeamB(v: View) {
         scoreViewModel.scoreTeamB += 2
-        scoreViewModel.saveScore()
+
+        /*displayScore(
+            tv_score_team_b,
+            scoreViewModel.scoreTeamB
+        )*/
     }
 
     fun addThreeTeamA(v: View) {
         scoreViewModel.scoreTeamA += 3
-        scoreViewModel.saveScore()
+
+        /*displayScore(
+            tv_score_team_a,
+            scoreViewModel.scoreTeamA
+        )*/
     }
 
     fun addThreeTeamB(v: View) {
         scoreViewModel.scoreTeamB += 3
-        scoreViewModel.saveScore()
+        /*displayScore(
+            tv_score_team_b,
+            scoreViewModel.scoreTeamB
+        )*/
     }
 
     fun resetScores(v: View) {
         scoreViewModel.scoreTeamA = 0
         scoreViewModel.scoreTeamB = 0
 
-        scoreViewModel.saveScore()
+        // binding.setVariable(++scoreViewModel.scoreTeamB,tv_score_team_b)
+
+        /*displayScore(
+            tv_score_team_a,
+            scoreViewModel.scoreTeamA
+        )
+        displayScore(
+            tv_score_team_b,
+            scoreViewModel.scoreTeamB
+        )*/
     } // TODO: Limpiando datos
+
+    /*fun displayScore(v: TextView, score: Int) {
+        v.text = score.toString()
+    }*/
+
 
 
 }
